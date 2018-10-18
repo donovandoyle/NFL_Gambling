@@ -1,0 +1,28 @@
+---
+title: "Final Project"
+author: "Donovan Doyle"
+date: "October 17, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+spreads <- read_csv("spreadspoke_scores.csv")
+teams <- read_csv("nfl_teams.csv")
+stadiums <- read_csv("nfl_stadiums.csv")
+```
+
+**My Plan**
+I plan to use this data to dig into how well Vegas has done in the NFL sports gambling world, and if there are any possible "holes". An example would be that the Dallas Cowboys generally generate the most revenue, meaning people with big money like them, meaning people with big money *bet* on them. Vegas only cares about getting the money bet on a line 50/50, which means there may be artificial line moves in the direction of a team like the Cowboys that Vegas doesn't necessarily agree with in their analysis of the game. Another angle I may look at involves combining both the O/U and point spread. Using this info, you can decipher what "score" Vegas thinks it will be. An example would be if the Patriots were playing the Steelers, and the O/U were 48.5, and the point spread was -3.5 Patriots, Vegas is "predicting" a score of 28.5-25. Obviously half points can't happen, as this is just a thought experiment. I've included some of the data below to get an idea:
+
+```{r, echo = FALSE}
+head(spreads)
+head(teams)
+head(stadiums)
+```
+
