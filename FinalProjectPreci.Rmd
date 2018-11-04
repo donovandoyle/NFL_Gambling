@@ -11,8 +11,9 @@ library(tidyverse)
 library(dplyr)
 library(knitr)
 library(kableExtra)
+library(readxl)
 
-spreads <- read_csv("spreadspoke_scores.csv")
+spreads <- read.csv("spreadspoke_scores.csv")
 teams <- read_csv("nfl_teams.csv")
 stadiums <- read_csv("nfl_stadiums.csv")
 ```
@@ -21,8 +22,17 @@ stadiums <- read_csv("nfl_stadiums.csv")
 I plan to use this data to dig into how well Vegas has done in the NFL sports gambling world, and if there are any possible "holes". An example would be that the Dallas Cowboys generally generate the most revenue, meaning people with big money like them, meaning people with big money *bet* on them. Vegas only cares about getting the money bet on a line 50/50, which means there may be artificial line moves in the direction of a team like the Cowboys that Vegas doesn't necessarily agree with in their analysis of the game. Another angle I may look at involves combining both the O/U and point spread. Using this info, you can decipher what "score" Vegas thinks it will be. An example would be if the Patriots were playing the Steelers, and the O/U were 48.5, and the point spread was -3.5 Patriots, Vegas is "predicting" a score of 28.5-25. Obviously half points can't happen, as this is just a thought experiment. I've included some of the data below to get an idea:
 
 ```{r, echo = FALSE}
-head(spreads)
-head(teams)
-head(stadiums)
+spreads_prep <- spreads %>%
+  filter(!is.na(schedule_week)) %>%
+  mutate(week = recode_factor(schedule_week, "1" = 1, "2" = 2, "3" = 3, "4" = 4, "5" = 5, "6" = 6, "7" = 7, "8" = 8, "9" = 9, "10" = 10, "11" = 11, "12" = 12, "13" = 13, "14" = 14, "15" = 15, "16" = 16, "17" = 17, "18" = 18)) %>%
+  filter(!is.na(schedule_week)) %>%
+  filter(!is.na(over_under_line)) %>%
+  mutate(over_under_line = parse_number(over_under_line)) %>%
+  group_by(week, over_under_line) %>%
+  summarize(avgline = sum(over_under_line) / 825) %>%
+  glimpse()
+
+(spreads_plot <- spreads_prep %>%
+  ggplot(aes(x = week, y = avgline)) + geom_bar(stat = "identity")) + labs(title = "Average Over/Under Lines by Week", x = "Week", y = "O/U set")
 ```
 
