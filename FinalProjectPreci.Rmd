@@ -32,6 +32,9 @@ spreads_prep <- spreads %>%
   summarize(avgline = sum(over_under_line) / 825) %>%
   glimpse()
 
+
+install.packages("openssl")
+install.packages("selectr")
 (spreads_plot <- spreads_prep %>%
   ggplot(aes(x = week, y = avgline)) + geom_bar(stat = "identity")) + labs(title = "Average Over/Under Lines by Week", x = "Week", y = "O/U set")
 ```

@@ -5,8 +5,8 @@ account: donovandoyle
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 551972
-bundleId: 1681384
+bundleId: 1681579
 url: https://donovandoyle.shinyapps.io/FirstShiny_nov4/
-when: 1541362059.57815
+when: 1541369537.04539
 asMultiple: FALSE
 asStatic: FALSE
