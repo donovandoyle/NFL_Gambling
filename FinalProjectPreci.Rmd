@@ -18,7 +18,7 @@ library(readxl)
 library(stringr)
 
 #reading in our csv
-spreads <- read.csv("spreadspoke_scores.csv")
+spreads1 <- read_csv("spreadspoke_scores.csv")
 ```
 
 
@@ -137,6 +137,21 @@ summary(cold_regress)
 
 #use this
 ggplot(spreads_cold_summary, aes(x = home_fav, y = fav_cover)) + geom_smooth(method = "lm")
+
+
+```
+
+
+```{r in-class}
+
+spreads <- read_rds("spreads.rds")
+(tidy_shiny <- spreads %>%
+  mutate(combined = score_home + score_away) %>%
+  select(weather_temperature, over_under_line, combined) %>%
+  filter(!is.na(over_under_line)) %>%
+  filter(!is.na(weather_temperature)) %>%
+  filter(weather_temperature > 0) %>%
+  ggplot(aes(x = weather_temperature, y = over_under_line)) + geom_point() + geom_smooth(method = "lm"))
 
 
 ```
