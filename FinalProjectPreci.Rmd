@@ -2,7 +2,9 @@
 title: "Final Project"
 author: "Donovan Doyle"
 date: "October 17, 2018"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -55,21 +57,21 @@ spreads_away_favorites <- spreads_match %>%
 
 
 #Adding an important topic: did they cover?
-spreads_comb_under <- left_join(spreads_home_favorites, spreads_away_favorites, .id = "source") %>%
+spreads_comb_under <- full_join(spreads_home_favorites, spreads_away_favorites, .id = "source") %>%
   mutate(diff = under_score - fav_score) %>%
   filter(diff > spread) %>%
   mutate(fav_cover = FALSE) %>%
   mutate(spread_win = under_team)
   
 #Expanding on what I did above
-spreads_comb_fav <- left_join(spreads_home_favorites, spreads_away_favorites, .id = "source") %>%
+spreads_comb_fav <- full_join(spreads_home_favorites, spreads_away_favorites, .id = "source") %>%
   mutate(diff = under_score - fav_score) %>%
   filter(diff < spread) %>%
   mutate(fav_cover = TRUE) %>%
   mutate(spread_win = fav_team)
 
 #My joins aren't working. Will work on that tonight.
-spreads_tidy <- left_join(spreads_comb_fav, spreads_comb_under, .id = "source")
+spreads_tidy <- full_join(spreads_comb_fav, spreads_comb_under, .id = "source")
 ```
 
 ```{r plots, echo = FALSE}
