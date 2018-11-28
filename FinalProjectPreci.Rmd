@@ -23,7 +23,7 @@ spreads <- read.csv("spreadspoke_scores.csv")
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, include = FALSE}
 #Here we're starting to tidy the data
 spreads_match <- spreads %>%
  #These are only subjects I'm interested in
@@ -74,7 +74,7 @@ spreads_comb_fav <- full_join(spreads_home_favorites, spreads_away_favorites, .i
 spreads_tidy <- full_join(spreads_comb_fav, spreads_comb_under, .id = "source")
 ```
 
-```{r plots, echo = FALSE}
+```{r plots, echo = FALSE, message = FALSE}
 
  fav_plot <- spreads_tidy %>%
    group_by(fav_team) %>%
