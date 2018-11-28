@@ -75,11 +75,69 @@ spreads_tidy <- full_join(spreads_comb_fav, spreads_comb_under, .id = "source")
 ```
 
 ```{r plots, echo = FALSE}
-(cold_plot <- spreads_tidy %>%
-  filter(home_fav == TRUE) %>%
-  filter(temp < 60) %>%
-  mutate(fav_cover = as.numeric(fav_cover)) %>%
+
+ fav_plot <- spreads_tidy %>%
+   group_by(fav_team) %>%
+   ggplot(aes(x = fav_team, y = spread)) + geom_boxplot()
+
+spreads_team_fav_summary <- spreads_tidy %>%
   group_by(fav_team) %>%
-  ggplot(aes(x = year, y = fav_cover)) + geom_line())
+  mutate(avg_diff = mean(diff)) %>%
+  mutate(fav_cover = as.numeric(fav_cover)) %>%
+  mutate(likely_fav_cover = sum(fav_cover) / n())
+
+spreads_team_under_summary <- spreads_tidy %>%
+  group_by(under_team) %>%
+  mutate(avg_diff = mean(diff)) %>%
+  mutate(fav_cover = as.numeric(fav_cover)) %>%
+  mutate(likely_under_cover = sum(fav_cover) / n())
+  
+#use this
+(spreads_when_under <- spreads_tidy %>%
+  group_by(under_team) %>%
+  mutate(avg_diff = mean(diff)) %>%
+  mutate(fav_cover = as.numeric(fav_cover)) %>%
+  mutate(likely_under_cover = sum(fav_cover) / n()) %>%
+  select(under_team, likely_under_cover) %>%
+  distinct(under_team, likely_under_cover) %>%
+  filter(!is.na(likely_under_cover)) %>%
+  arrange(under_team) %>%
+  mutate(bet_against = (1 - likely_under_cover)*18.70) %>%
+  mutate(likely_under_cover = likely_under_cover*18.70) %>%
+  kable(caption = "$10 Bets: When they're the underdog", col.names = c("Team", "Betting on Expected Payout", "Betting against Expected Payout"), digits = 2) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")))
+
+#use this
+(spreads_team_summary <- 
+  full_join(spreads_team_fav_summary, spreads_team_under_summary) %>%
+  select(fav_team, likely_fav_cover) %>%
+  distinct(fav_team, likely_fav_cover) %>%
+  filter(!is.na(likely_fav_cover)) %>%
+  rename(team = fav_team, likely_fav_cover = likely_fav_cover) %>%
+  arrange(team) %>%
+  mutate(bet_against = (1 - likely_fav_cover) * 18.70) %>%
+  mutate(likely_fav_cover = likely_fav_cover*18.70) %>%
+  kable(caption = "$10 Bets: When they're the favorite", col.names = c("Team", "Betting on Expected Payout", "Betting against Expected Payout"), digits = 2) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")))
+
+spreads_home_summary <- spreads_tidy %>%
+  mutate(fav_cover = as.numeric(fav_cover)) %>%
+  mutate(home_fav = as.numeric(home_fav))
+
+spreads_cold_summary <- spreads_home_summary %>%
+  filter(temp < 50)
+  
+
+home_regress <- lm(fav_cover ~ home_fav, data = spreads_home_summary)
+summary(home_regress)
+
+cold_regress <- lm(fav_cover ~ home_fav, data = spreads_cold_summary)
+#use this
+summary(cold_regress)
+
+#use this
+ggplot(spreads_cold_summary, aes(x = home_fav, y = fav_cover)) + geom_smooth(method = "lm")
+
+
 ```
 
