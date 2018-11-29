@@ -1,51 +1,44 @@
-# KABLE FROM CALABRO
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com/
-#
-
-library(shiny)
 library(tidyverse)
 
-spreads_table <- read_rds("../spreads.rds")
+x <- read_rds("spreads.rds")
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
+  tabsetPanel(
+  tabPanel("Choices", fluid = TRUE,
+           
   
-  # Application title
-  titlePanel("Over/Under Lines"),
+  # Note that I am using the simplest possible format. We would normally
+  # structure this layout with a sidebar, as in the default Shiny example.
   
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("ou",
-                  "Over/Under",
-                  min = 25,
-                  max = 70,
-                  value = c(40,60))
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-      dataTableOutput("table")
-    )
-  )
+  # I looked at the data to select this min and max. Probably better to choose
+  # this on the fly, perhaps with some padding/rounding to make it look nice.
+  
+  sliderInput(inputId = "number", label = "Over/Under",
+              min = 25, max = 70,
+              value = c(50, 55)),
+  
+  tableOutput("table")
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
   
-  output$table <- renderDataTable({
-    spreads_table %>%
-      select(schedule_date, team_home, team_away, over_under_line) %>%
-      filter(over_under_line %in% input$ou)
+  
+  
+  output$table <- renderTable({
+    
+    # Always remember that, if you are going to use information from the input
+    # object, you need to do so within a reactive function like render*. 
+    
+    x %>% 
+      filter(over_under_line >= input$number[1], over_under_line <= input$number[2]) %>%
+      mutate(combined = score_home + score_away) %>%
+      select(schedule_date, team_home, team_away, over_under_line, combined) %>% 
+      mutate(schedule_date = as.character(schedule_date)) %>% 
+      arrange(over_under_line) %>%
+      rename(Date = schedule_date, Home = team_home, 
+             Visitor = team_away, `Over/Under` = over_under_line, 'True Combined Total' = combined)
+    
   })
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
-
-
+shinyApp(ui, server)
