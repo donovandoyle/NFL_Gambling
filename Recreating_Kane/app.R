@@ -17,7 +17,7 @@ ui <- fluidPage(
 
   
   # Application title
-  titlePanel("Recreating Mr. Doyle's Final Project"),
+  titlePanel("How to Make a Lot of Money"),
   
   # Show a plot of the generated distribution
   
