@@ -25,7 +25,7 @@ spreads1 <- read_csv("spreadspoke_scores.csv")
 
 ```{r, echo = FALSE, include = FALSE}
 #Here we're starting to tidy the data
-spreads_match <- spreads %>%
+spreads_match <- spreads1 %>%
  #These are only subjects I'm interested in
    select(schedule_season, team_home, team_away, team_favorite_id, spread_favorite, score_home, score_away, schedule_playoff, weather_temperature) %>%
   #Filtering out data we can't really use
@@ -93,7 +93,7 @@ spreads_team_under_summary <- spreads_tidy %>%
   mutate(likely_under_cover = sum(fav_cover) / n())
   
 #use this
-(spreads_when_under <- spreads_tidy %>%
+spreads_when_under <- spreads_tidy %>%
   group_by(under_team) %>%
   mutate(avg_diff = mean(diff)) %>%
   mutate(fav_cover = as.numeric(fav_cover)) %>%
@@ -104,11 +104,10 @@ spreads_team_under_summary <- spreads_tidy %>%
   arrange(under_team) %>%
   mutate(bet_against = (1 - likely_under_cover)*18.70) %>%
   mutate(likely_under_cover = likely_under_cover*18.70) %>%
-  kable(caption = "$10 Bets: When they're the underdog", col.names = c("Team", "Betting on Expected Payout", "Betting against Expected Payout"), digits = 2) %>%
-  kable_styling(bootstrap_options = c("striped", "hover")))
+  rename(Team = under_team, 'Betting on Expected Payout' = likely_under_cover, 'Betting Against Expected Payout' = bet_against)
 
 #use this
-(spreads_team_summary <- 
+spreads_team_summary <- 
   full_join(spreads_team_fav_summary, spreads_team_under_summary) %>%
   select(fav_team, likely_fav_cover) %>%
   distinct(fav_team, likely_fav_cover) %>%
@@ -117,8 +116,7 @@ spreads_team_under_summary <- spreads_tidy %>%
   arrange(team) %>%
   mutate(bet_against = (1 - likely_fav_cover) * 18.70) %>%
   mutate(likely_fav_cover = likely_fav_cover*18.70) %>%
-  kable(caption = "$10 Bets: When they're the favorite", col.names = c("Team", "Betting on Expected Payout", "Betting against Expected Payout"), digits = 2) %>%
-  kable_styling(bootstrap_options = c("striped", "hover")))
+  rename(Team = team, 'Betting on Expected Payout' = likely_fav_cover, 'Betting against Expected Payout' = bet_against)
 
 spreads_home_summary <- spreads_tidy %>%
   mutate(fav_cover = as.numeric(fav_cover)) %>%
@@ -154,5 +152,10 @@ spreads <- read_rds("spreads.rds")
   ggplot(aes(x = weather_temperature, y = over_under_line)) + geom_point() + geom_smooth(method = "lm"))
 
 
+```
+
+```{r}
+write_rds(spreads_when_under, path = "Recreating_Kane/spreads_when_under.rds")
+write_rds(spreads_team_summary, path = "Recreating_Kane/spreads_team_summary.rds")
 ```
 
