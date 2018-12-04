@@ -102,8 +102,8 @@ spreads_when_under <- spreads_tidy %>%
   distinct(under_team, likely_under_cover) %>%
   filter(!is.na(likely_under_cover)) %>%
   arrange(under_team) %>%
-  mutate(bet_against = (1 - likely_under_cover)*18.70) %>%
-  mutate(likely_under_cover = likely_under_cover*18.70) %>%
+  mutate(bet_against = round((1 - likely_under_cover)*18.70, 2)) %>%
+  mutate(likely_under_cover = round(likely_under_cover*18.70, 2)) %>%
   rename(Team = under_team, 'Betting on Expected Payout' = likely_under_cover, 'Betting Against Expected Payout' = bet_against)
 
 #use this
@@ -114,8 +114,8 @@ spreads_team_summary <-
   filter(!is.na(likely_fav_cover)) %>%
   rename(team = fav_team, likely_fav_cover = likely_fav_cover) %>%
   arrange(team) %>%
-  mutate(bet_against = (1 - likely_fav_cover) * 18.70) %>%
-  mutate(likely_fav_cover = likely_fav_cover*18.70) %>%
+  mutate(bet_against = round((1 - likely_fav_cover) * 18.70, 2)) %>%
+  mutate(likely_fav_cover = round(likely_fav_cover*18.70, 2)) %>%
   rename(Team = team, 'Betting on Expected Payout' = likely_fav_cover, 'Betting against Expected Payout' = bet_against)
 
 spreads_home_summary <- spreads_tidy %>%

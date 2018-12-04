@@ -24,8 +24,8 @@ ui <- fluidPage(
   mainPanel(
     tabsetPanel(type = "tabs",
                 tabPanel("Over/Under Lines and Temperature", plotOutput("one")),
-                tabPanel("$10 Bets: When They're the Underdog", tableOutput("two")),
-                tabPanel("$10 Bets: When They're the Favorite", tableOutput("three")),
+                tabPanel("$10 Bets: When They're the Underdog", dataTableOutput("two")),
+                tabPanel("$10 Bets: When They're the Favorite", dataTableOutput("three")),
                 tabPanel("Summary", htmlOutput("about")))))
     
     # Note that I am using the simplest possible format. We would normally
@@ -54,13 +54,14 @@ server <- function(input, output) {
            y = "Over/Under Line") + geom_smooth(aes(y = combined, color = "red")) + guides(color = "none")
   })
   
-  output$two <- renderTable({
+  output$two <- renderDataTable({
     y
+      
   }
     
   )
   
-  output$three <- renderTable({
+  output$three <- renderDataTable({
       
       # Always remember that, if you are going to use information from the input
       # object, you need to do so within a reactive function like render*. 
