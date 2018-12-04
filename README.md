@@ -1,2 +1,7 @@
 # Final-Project
-This is my repo for the final project.
+"It's not gambling if you know you're going to win." 
+I look into the history of gambling data in the NFL from 1979-2017 from profootballreference.com and repole.com. Using factors like home team, team history, and weather, I dig into game results and how that compares to point spreads and over/under lines set by Vegas. I analyze the data in regression analysis and visually.
+
+Millions of dollars are laid on the line every week with Vegas sportsbooks. However, more often than not, the public will end up losing to the house. This makes sense, as the sportsbooks have to stay in business somehow. There are other rules in place that make it even harder to make money on the public side-- for example, even if a bet is won, it is often that the house will take a cut from the original bet. The standard payout of a bet that is won is approximately 87% of the original wager. This means instead of being able to win 50% of your bets to break even, you must win just above 53% of your bets. I find a few cases that can be exploited for a positive expected payout over the 38 year period analyzed.
+
+The first tool includes every over/under line set for an NFL game, and can be searched with a range. I include the true combined score from the game, as well. The next tab shows a relationship between weather and scoring, and how Vegas has incorporated that into setting over/under lines. The table after that shows the expected value when betting just by team-- anything over $10 is a winning bet. The final table shows a relationship between home team favorites winning when the temperature is also below 50 degrees, demonstrating the advantages of practicing in that weather and expecting it.
