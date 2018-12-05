@@ -6,6 +6,8 @@ Millions of dollars are laid on the line every week with Vegas sportsbooks. Howe
 
 The first tool looks at over/under lines set and how they relate to weather temperature. I find that Vegas over-accounts for cold temperatures negatively affecting scoring. The next two tools look at a gambler's expected payouts when betting on or against specific teams. I identify teams that, if they follow their trends of the last 40 years, can be bet on/against for >5% returns on investment. In fact, if you had been following my advice since 1979, you would have outperformed 3 bluechip stocks from the time period going into 2017: Woolworth's, Toys R Us, and Lehman Brothers. If you only have 2 takeaways from this application, they should be: always bet the over when the temperature is under 50 degrees, and always bet against the Eagles when they're the underdog.
 
+**My Shiny application is here**: https://donovandoyle.shinyapps.io/DonovanDoyle_FinalProject/
+
 I got my data from: https://www.kaggle.com/tobycrabtree/nfl-scores-and-betting-data
 
-My Shiny application is here: *****
+
