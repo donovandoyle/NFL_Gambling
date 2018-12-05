@@ -1,4 +1,4 @@
-# Final-Project
+# NFL Gambling Analysis
 "It's not gambling if you know you're going to win." 
 I look into the history of gambling data in the NFL from 1979-2017 from profootballreference.com and repole.com. Using factors like home team, team history, and weather, I dig into game results and how that compares to point spreads and over/under lines set by Vegas. I visually analyze the data and provide regression analysis.
 
