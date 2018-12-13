@@ -118,7 +118,7 @@ spreads_team_summary <-
 
 ```{r, include = FALSE}
 #writing my RDS files. Done!
-write_rds(spreads_when_under, path = "Shiny_App/spreads_when_under.rds")
-write_rds(spreads_team_summary, path = "Shiny_App/spreads_team_summary.rds")
+write_rds(spreads_when_under, path = "NFL_Gambling/spreads_when_under.rds")
+write_rds(spreads_team_summary, path = "NFL_Gambling/spreads_team_summary.rds")
 ```
 Please refer to the Shiny app for my finished product. If you're interested in the work behind my results, check out the Rmd file. Enjoy!

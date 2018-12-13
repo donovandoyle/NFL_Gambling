@@ -1,0 +1,12 @@
+name: NFL_Gambling
+title: NFL_Gambling
+username:
+account: donovandoyle
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 616343
+bundleId: 1761242
+url: https://donovandoyle.shinyapps.io/NFL_Gambling/
+when: 1544718281.06208
+asMultiple: FALSE
+asStatic: FALSE

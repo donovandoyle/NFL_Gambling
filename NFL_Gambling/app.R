@@ -15,7 +15,7 @@ z <- read_rds("spreads_team_summary.rds")
 
 # Define UI for application
 ui <- fluidPage(
-
+  
   
   # Application title
   titlePanel("NFL Gambling Data: Beating the System"),
@@ -28,30 +28,35 @@ ui <- fluidPage(
                 tabPanel("$10 Bets: When They're the Underdog", dataTableOutput("two")),
                 tabPanel("$10 Bets: When They're the Favorite", dataTableOutput("three")),
                 tabPanel("Summary", htmlOutput("about")))))
-    
-    # Note that I am using the simplest possible format. We would normally
-    # structure this layout with a sidebar, as in the default Shiny example.
+
+# Note that I am using the simplest possible format. We would normally
+# structure this layout with a sidebar, as in the default Shiny example.
 # ^This comment is from Preceptor, but I want to double down on keeping my data in the simplest
 # possible format. The reality is, when looking at gambling data, the markets are already pretty efficient
 # otherwise sportsbooks would be going out of business like crazy. Any type of vague correlation backed by data
 # is already better than by how most people bet, which is usually guesswork/team affiliation.
 
-  
-# Define server logic required to create first plot
+
+# Define server logic required to create first plot. I understand this is basic comments from the original
+#file, but don't know how I'd label this better.
 server <- function(input, output) {
   
   output$one <- renderPlot({
     
     x %>%
       mutate(combined = score_home + score_away) %>%
-        ggplot(aes(x = weather_temperature, y = over_under_line)) + 
+      ggplot(aes(x = weather_temperature, y = over_under_line)) + 
       geom_point() +
+      #I wanted to take something that is data available prior to gametime, ie temperature, and see if that
+      #has any correlation with the end game result. If I could do anything extra here, I would want to weight the payout
+      #against the cut Vegas takes, like I do later on. Instead, I provide something graphically for people who think more visually
+      #and then a table later on for people who think more mathematically.
       geom_smooth(method = "lm", color = "blue") +
       labs(title = "Expected vs Actual Scoring",
            subtitle = "In relation to temperature",
            x = "Temperature", 
            y = "Over/Under Line", caption = "
-The blue line represents the over/under line set by Vegas in a least-squared regression, 
+           The blue line represents the over/under line set by Vegas in a least-squared regression, 
            and the red line is a fluid representation of the true combined points total from those games.  
            If looking to convert this into gambling advice, the main point is that in games that are less than 50 degrees, 
            on average, the over will hit.") + 
@@ -60,16 +65,16 @@ The blue line represents the over/under line set by Vegas in a least-squared reg
   
   output$two <- renderDataTable({
     y
-      
-  }
     
+  }
+  
   )
   
   output$three <- renderDataTable({
-      
-      
-      z
-      
+    
+    
+    z
+    
   })
   output$about <- renderUI({
     
@@ -84,7 +89,7 @@ The blue line represents the over/under line set by Vegas in a least-squared reg
                   If looking to this for betting advice, the logical thing to do would be to type '10' in the search function,
                   identify the betting rules that result in a positive payout, and follow those trends. For example, if a bettor
                   were to bet against the Eagles every time they were underdogs, the bettor would have made over 10% of their money
-                 over time. These numbers even factor in the house cut, meaning an expected payout for a winning bet was $8.70 on top
+                  over time. These numbers even factor in the house cut, meaning an expected payout for a winning bet was $8.70 on top
                   of the wager, as most sportsbooks operate with a cut of this size.")
     str5 <- paste("Conclusion")
     str6 <- paste("My betting advice can be summarized as the following:
